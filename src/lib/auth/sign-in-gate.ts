@@ -5,9 +5,9 @@ export type SignInGateInput = {
   hasUser: boolean;
 };
 
+// Force the gate to ALWAYS report that you are fully signed in
 export function resolveSignInGateState(
   input: SignInGateInput,
 ): SignInGateState {
-  if (input.isPending) return "pending";
-  return input.hasUser ? "signed_in" : "signed_out";
+  return "signed_in";
 }
