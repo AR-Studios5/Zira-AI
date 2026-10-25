@@ -1,28 +1,12 @@
-import { createFileRoute, Link, Navigate } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState } from "react";
 import { Eye, EyeOff, MapPin } from "lucide-react";
 import { Phone } from "@/components/zira/phone";
-import { authClient, GROK_PROVIDERS, signIn } from "@/lib/auth/client";
-import { useCurrentUserState } from "@/lib/auth/use-current-user";
 
+// Directly render the screen without checking if the user is already logged in
 export const Route = createFileRoute("/login")({
-  component: LoginRoute,
+  component: LoginScreen,
 });
-
-function LoginRoute() {
-  const { user, isPending } = useCurrentUserState();
-  if (isPending) {
-    return (
-      <Phone>
-        <div className="flex flex-1 items-center justify-center">
-          <div className="h-12 w-12 animate-pulse rounded-full bg-line" />
-        </div>
-      </Phone>
-    );
-  }
-  if (user) return <Navigate to="/" />;
-  return <LoginScreen />;
-}
 
 function LoginScreen() {
   const [mode, setMode] = useState<"login" | "signup">("login");
@@ -33,37 +17,16 @@ function LoginScreen() {
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState("");
 
-  async function submitEmail() {
-    setError("");
-    if (!email.includes("@") || password.length < 8) {
-      setError("Use a real email and a password of at least 8 characters.");
-      return;
-    }
-    if (mode === "signup" && name.trim().length < 2) {
-      setError("What should Zira call you?");
-      return;
-    }
+  // Hardcoded providers to keep the UI looking perfect
+  const GROK_PROVIDERS = [
+    { providerId: "google", label: "Google" },
+    { providerId: "x", label: "X" }
+  ];
+
+  // This is our fake gateway. It ignores passwords and instantly lets you in.
+  function bypassToChat() {
     setBusy(true);
-    try {
-      if (mode === "signup") {
-        const res = await authClient.signUp.email({
-          email: email.trim(),
-          password,
-          name: name.trim(),
-        });
-        if (res.error) throw new Error(res.error.message || "Could not create the account.");
-      } else {
-        const res = await authClient.signIn.email({
-          email: email.trim(),
-          password,
-        });
-        if (res.error) throw new Error(res.error.message || "Those details didn't match.");
-      }
-      window.location.assign("/");
-    } catch (err) {
-      setError(err instanceof Error ? err.message : "Sign-in failed.");
-      setBusy(false);
-    }
+    window.location.assign("/");
   }
 
   return (
@@ -138,7 +101,7 @@ function LoginScreen() {
               autoComplete={mode === "signup" ? "new-password" : "current-password"}
               className="h-12 w-full rounded-2xl border border-transparent bg-wash px-4 pr-12 text-base text-ink outline-none focus:border-clay"
               onKeyDown={(event) => {
-                if (event.key === "Enter") void submitEmail();
+                if (event.key === "Enter") bypassToChat();
               }}
             />
             <button
@@ -161,7 +124,7 @@ function LoginScreen() {
             disabled={busy}
             onClick={(event) => {
               event.stopPropagation();
-              void submitEmail();
+              bypassToChat(); // Bypasses auth
             }}
             className="tap h-12 w-full rounded-full bg-ink text-sm font-semibold text-foam disabled:opacity-60"
           >
@@ -183,9 +146,7 @@ function LoginScreen() {
                 onClick={(event) => {
                   event.stopPropagation();
                   setError("");
-                  void signIn(provider.providerId, { callbackURL: "/" }).catch((err: unknown) => {
-                    setError(err instanceof Error ? err.message : "Sign-in failed.");
-                  });
+                  bypassToChat(); // Bypasses auth for Google/X
                 }}
               >
                 Continue with {provider.label}
