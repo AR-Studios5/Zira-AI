@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0, viewport-fit=cover">
+<meta name="theme-color" content="#f3e9df">
+<title>Zira</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600&family=Outfit:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="app.js" defer></script>
+</head>
+<body>
+<div id="loader"><div class="stage"><div class="orb"><b>Z</b></div><i class="ring"></i></div><p>Opening Zira...</p></div>
+
+<div class="box" id="box">
+  <div class="toast hidden" id="toast"></div>
+  <div class="scrim hidden" id="scrim" data-overlay></div>
+
+  <main id="auth" class="screen">
+    <div class="auth-in">
+      <div class="brand"><span class="av big" data-av></span><div><h1>meet Zira</h1><p>your everyday companion.</p></div></div>
+      <div class="card">
+        <div class="seg" id="seg" data-mode="login"><i class="thumb"></i>
+          <button type="button" data-action="mode" data-mode="login">Log in</button>
+          <button type="button" data-action="mode" data-mode="signup">Sign up</button></div>
+        <input class="fld" id="email" type="email" placeholder="Email" autocomplete="email">
+        <div class="pw"><input class="fld" id="pw" type="password" placeholder="Password, 8+ characters" autocomplete="current-password"><button type="button" data-action="eye" aria-label="Show password"><i data-i="eye"></i></button></div>
+        <button type="button" class="btn dark" id="auth-btn" data-action="email">Log in</button>
+        <div class="or"><span>OR</span></div>
+        <button type="button" class="btn out" data-action="social">Continue with Google</button>
+        <button type="button" class="btn out" data-action="social">Continue with X</button>
+      </div>
+      <p class="tuned"><i data-i="pin"></i>Tuned for India · IST</p>
+      <p class="fine">By continuing you confirm you are 13 or older and agree to the <button type="button" data-action="legal" data-doc="terms">Terms</button>, <button type="button" data-action="legal" data-doc="privacy">Privacy</button> and <button type="button" data-action="legal" data-doc="refund">Refund</button> policies.</p>
+    </div>
+  </main>
+
+  <main id="chat" class="screen hidden">
+    <header class="head">
+      <span class="av"><span data-av></span><u class="dot"></u></span>
+      <div class="who"><b>Zira <i data-i="badge"></i></b><small>here</small></div>
+      <button type="button" class="ic" data-action="games" aria-label="Games"><i data-i="game"></i></button>
+      <button type="button" class="ic" data-action="call" aria-label="Voice call"><i data-i="phone"></i></button>
+      <span class="anchor"><button type="button" class="ic" data-action="menu" aria-label="Menu"><i data-i="dots"></i></button>
+        <div class="pop hidden" id="pop">
+          <button type="button" class="row-b" data-action="games"><i data-i="game"></i><span>Games</span></button>
+          <button type="button" class="row-b" data-action="share"><i data-i="share"></i><span>Share</span></button>
+          <button type="button" class="row-b" data-action="rate"><i data-i="star"></i><span>Rate Us</span></button>
+          <button type="button" class="row-b" data-action="support"><i data-i="headset"></i><span>Contact Us</span></button>
+          <button type="button" class="row-b" data-action="plus"><i data-i="crown"></i><span>Subscription</span></button>
+          <button type="button" class="row-b" data-action="clearchat"><i data-i="x"></i><span>Clear Chat</span></button>
+          <button type="button" class="row-b red" data-action="logout"><i data-i="logout"></i><span>Log out</span></button>
+        </div></span>
+    </header>
+    <div class="feed" id="feed">
+      <div class="pill">You waved hi</div>
+      <!-- HARDCODED FIRST MESSAGE -->
+      <div class="bub z"><span>Hey, sab theek?</span></div>
+      <button type="button" class="paywall hidden" id="paywall" data-action="plus"><b>Free chats are over for today</b><span>Keep talking to Zira for just ₹1</span></button>
+    </div>
+    <form class="comp" id="comp" autocomplete="off">
+      <div class="quota" id="quota"></div>
+      <div class="row"><button type="button" class="ic micbtn" data-action="mic" aria-label="Record voice note"><i data-i="mic"></i></button>
+        <div class="inw">
+          <textarea class="msg" id="msg" placeholder="type your message" rows="1"></textarea>
+          <div class="rec hidden" id="rec"><u class="rd"></u><b id="rtime">0:00</b><span>Recording</span><button type="button" data-action="recx">Cancel</button></div>
+        </div>
+        <button type="submit" class="send" aria-label="Send"><i data-i="arrow"></i></button></div>
+    </form>
+  </main>
+
+  <section class="page hidden" id="games">
+    <div class="ph"><h2>Games with Zira</h2><button type="button" class="ic" data-action="close" data-t="games" aria-label="Close"><i data-i="x"></i></button></div>
+    <div class="pb">
+      <div class="hero"><h3>Unlock your mind</h3><p>Short games. She talks while you play.</p></div>
+      <button type="button" class="gcard" data-action="chess"><small class="g">Live</small><b>Chess</b><span>You play white. She answers, then she comments.</span></button>
+    </div>
+  </section>
+
+  <section class="page hidden" id="chess">
+    <div class="ph"><h2>Chess</h2><button type="button" class="ic" data-action="close" data-t="chess" aria-label="Close"><i data-i="x"></i></button></div>
+    <div class="pb">
+      <p class="cstat" id="cstat">Your move. You are white.</p>
+      <div class="bw" id="bw"><div class="bd" id="bd"></div></div>
+      <div class="bub z" id="csay">Chal safed teri hai. Soch samajh ke chalna.</div>
+      <button type="button" class="btn dark" data-action="cnew">New game</button>
+    </div>
+  </section>
+
+  <section class="page call hidden" id="call">
+    <p class="cst" id="cst">Calling Zira...</p>
+    <div class="cmid"><div class="ringw" id="ringw"><span class="av huge" data-av></span></div><h3 class="serif">Zira</h3><p id="ctime">00:00</p><small class="note">Live voice chat is coming soon</small></div>
+    <div class="kp hidden" id="kp"><div class="kd" id="kd">&nbsp;</div><div class="kg" id="kg"></div></div>
+    <div class="cbtm">
+      <div class="cgrid">
+        <button type="button" class="cb" id="cb-mute" data-action="cmute"><b><i data-i="micoff"></i></b><span>Mute</span></button>
+        <button type="button" class="cb" id="cb-key" data-action="ckeys"><b><i data-i="keypad"></i></b><span>Keypad</span></button>
+        <button type="button" class="cb" id="cb-spk" data-action="cspk"><b><i data-i="speaker"></i></b><span>Speaker</span></button>
+        <button type="button" class="cb" id="cb-hold" data-action="chold"><b><i data-i="pause"></i></b><span>Hold</span></button>
+      </div>
+      <button type="button" class="endc" data-action="endcall" aria-label="End call"><i data-i="phone"></i></button>
+    </div>
+  </section>
+
+  <section class="page hidden" id="plus">
+    <div class="ph"><h2>Zira Plus</h2><button type="button" class="ic" data-action="close" data-t="plus" aria-label="Close"><i data-i="x"></i></button></div>
+    <div class="pb">
+      <div class="hero"><h3>Unlimited Zira</h3><p>No daily limit. Voice calls. Priority replies.</p></div>
+      <div class="rv" id="rv"><div class="rt" id="rt"></div></div>
+      <div class="gcard"><small class="g">28 Days</small><b class="serif price">₹599<em> / cycle</em></b>
+        <ul><li>Unlimited messages every day</li><li>Voice calls with Zira</li><li>Unlock all live games</li></ul></div>
+      <button type="button" class="btn dark" data-action="pay" id="paybtn">Start for ₹1</button>
+      <button type="button" class="btn out" data-action="restore">Restore purchase</button>
+      <p class="fine c">First cycle ₹1, then ₹599/28 days. Paid before? Tap Restore, or <button type="button" data-action="support">contact support</button>.</p>
+    </div>
+  </section>
+
+  <div class="layer hidden" id="s-terms" data-overlay data-lock><div class="sheet">
+    <h2>One last step</h2><p class="mute">Setup your profile before chatting.</p>
+    <input class="fld" id="name" placeholder="What should she call you?" maxlength="24" autocomplete="given-name">
+    
+    <div class="card" style="margin: 4px 0; border: none; padding: 0; box-shadow: none; display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
+      <button type="button" class="btn out g-btn" data-action="pickgen" data-gen="male" style="font-size: 14px;">I'm a Guy</button>
+      <button type="button" class="btn out g-btn" data-action="pickgen" data-gen="female" style="font-size: 14px;">I'm a Girl</button>
+    </div>
+    
+    <button type="button" class="chk" id="agree" role="checkbox" aria-checked="false" data-action="agree" style="margin-top: 6px;"><u></u><span>I am 13 or older and agree to Terms.</span></button>
+    <button type="button" class="btn dark" id="go" data-action="comply" disabled>Start Chatting</button>
+    <p class="fine c"><button type="button" data-action="legal" data-doc="terms">Terms</button> · <button type="button" data-action="legal" data-doc="privacy">Privacy</button></p>
+  </div></div>
+
+  <div class="layer hidden" id="s-gender" data-overlay data-lock><div class="sheet">
+    <h2>One quick thing</h2><p class="mute">How should Zira talk to you?</p>
+    <div class="card" style="margin: 10px 0; border: none; padding: 0; box-shadow: none; display: flex; flex-direction: column; gap: 10px;">
+      <button type="button" class="btn dark" data-action="setgen" data-gen="male">I'm a Guy</button>
+      <button type="button" class="btn dark" data-action="setgen" data-gen="female">I'm a Girl</button>
+    </div>
+  </div></div>
+
+  <div class="layer hidden" id="legal" data-overlay><div class="sheet">
+    <h2 id="ltitle">Terms</h2><div class="pb doc" id="lbody" style="padding: 0;"></div>
+    <button type="button" class="btn out" data-action="close">Close</button>
+  </div></div>
+
+  <div class="layer hidden" id="s-logout" data-overlay><div class="sheet">
+    <h2>Log out?</h2>
+    <p class="mute">You will be signed out of your account. Your chats, name, and settings are securely saved in the cloud and will be restored instantly when you log back in.</p>
+    <button type="button" class="btn dark" data-action="dologout">Yes, log out</button>
+    <button type="button" class="btn out" data-action="close">Stay logged in</button></div></div>
+
+  <div class="layer hidden" id="s-rate" data-overlay><div class="sheet"><div class="stk">
+    <div class="pane" id="r1"><h2>Enjoying Zira?</h2><p class="mute">Tap a star to rate.</p>
+      <div class="stars" id="stars"><button type="button" data-action="star" data-v="1">★</button><button type="button" data-action="star" data-v="2">★</button><button type="button" data-action="star" data-v="3">★</button><button type="button" data-action="star" data-v="4">★</button><button type="button" data-action="star" data-v="5">★</button></div></div>
+    <div class="pane hidden" id="r2"><h2>Thank you</h2><p class="mute">Your rating means a lot.</p></div>
+  </div></div></div>
+
+  <div class="layer hidden" id="s-support" data-overlay><div class="sheet">
+    <h2>Contact us</h2><p class="mute">Tell us what went wrong. We read everything.</p>
+    <textarea class="fld" id="stext" rows="3" placeholder="Write here..."></textarea>
+    <button type="button" class="btn dark" data-action="ssend">Send</button></div></div>
+
+  <div class="layer hidden" id="s-gate" data-overlay><div class="sheet">
+    <h2 id="gate-title">Voice calls are Plus</h2><p class="mute" id="gate-desc">Upgrade to hear Zira and talk to her live.</p>
+    <button type="button" class="btn dark" data-action="plus">See Zira Plus</button>
+    <button type="button" class="btn out" data-action="close">Not now</button></div></div>
+</div>
+</body>
+</html>
