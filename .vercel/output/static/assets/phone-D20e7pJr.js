@@ -1,1 +1,0 @@
-import{l as e}from"./link-op_fKqLl.js";var t=e();function n({children:e}){return(0,t.jsx)(`div`,{className:`phone-stage`,children:(0,t.jsx)(`div`,{className:`phone-frame`,children:e})})}export{n as t};
